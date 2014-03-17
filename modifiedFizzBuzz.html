@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<script>
+			/*
+				FizzBuzzKata
+
+				Write a program that prints the numbers from 1 to 100. But for multiples of three 
+				print “Fizz” instead of the number and for the multiples of five print “Buzz”. For 
+				numbers which are multiples of both three and five print “FizzBuzz”
+
+				You can use any tool you find usefull and structure the code as you want.
+
+				Modifications:
+					a. To change limits are FizzBuzz say pass the values as parameters
+
+					b. Create a setup means to save such changes in numbers (instead of multiples of 3 multiples of 2 or 10, and instead put Buzz Fizz or other identifier as Foo and Bar)
+
+					c. To persist these parameters, ie somehow save them for reuse in a JSON file or localStorage, but trying to get the persistence mechanism can be changed, ie it is at least possible coupled
+			*/
+
+			function storageManager()
+			{
+			        this.saveContent = function(values) { localStorage.setItem('contents', JSON.stringify(values)); };
+
+			        this.getContent = function() { return JSON.parse(localStorage.getItem('contents')); };
+
+				this.deleteContent = function() { localStorage.removeItem('contents'); };
+
+				this.contentNotFound = function() { return (localStorage.getItem('contents') == null); };
+			};
+
+			storageManager = new storageManager();
+
+			defaultOptions = {	limit: 100,
+							number1: 3,
+							number2: 5,
+							identifier1: 'Fizz',
+							identifier2: 'Buzz'
+					    	 };
+
+			function fizzBuzz()
+			{
+				var options = getValues();
+
+				var fizz = new Array('',options.identifier1);
+				var buzz = new Array('', options.identifier2);
+
+				for (var i = 1; i < options.limit; i++) {
+					var index1 = (i % options.number1 == 0) ? 1 : 0;
+					var index2 = (i % options.number2 == 0) ? 1 : 0;
+	
+					var showNumber = (index1 + index2 == 0) ? i : '';
+	
+					document.write(showNumber + fizz[index1] + buzz[index2] + '<br>');
+				}
+			};
+
+			function setParameters()
+			{
+				var options = storageManager.getContent();
+
+				if (storageManager.contentNotFound()) {
+					options = defaultOptions;
+				}
+
+				document.getElementById("limit").value = options.limit;
+				document.getElementById('number1').value = options.number1;
+				document.getElementById('number2').value = options.number2;
+				document.getElementById('identifier1').value = options.identifier1;
+				document.getElementById('identifier2').value = options.identifier2;
+			};
+
+			function getValues()
+			{
+				var options = {};
+
+				options.limit = document.getElementById('limit').value;
+				options.number1 = document.getElementById('number1').value;
+				options.number2 = document.getElementById('number2').value;
+				options.identifier1 = document.getElementById('identifier1').value;
+				options.identifier2 = document.getElementById('identifier2').value;
+
+				return options;
+			}
+
+		</script>
+	</head>
+	<body onload="setParameters();">
+		<h3>Generic FizzBuzz Algorithm</h3>
+		<table>
+			<tbody>
+				<tr><td>Cantidad de n&uacute;meros a imprimir (por ejemplo <i>100</i>): <input type="text" id="limit"></td></tr>
+				<tr><td>Valor del primer m&uacute;ltiplo (por ejemplo <i>3</i>): <input type="text" id="number1"></td></tr>
+				<tr><td>Valor del segundo m&uacute;ltiplo (por ejemplo <i>5</i>): <input type="text" id="number2"></td></tr>
+				<tr><td>Valor del primer identificador (por ejemplo <i>Fizz</i>): <input type="text" id="identifier1"></td></tr>
+				<tr><td>Valor del segundo identificador (por ejemplo <i>Buzz</i>): <input type="text" id="identifier2"></td></tr>
+
+				<tr><td><input type="button" value="Guardar valores" onclick="storageManager.saveContent(getValues());"></td>
+				      <td><input type="button" value="Valores por defecto" onclick="storageManager.deleteContent();setParameters();"></td>
+				      <td><input type="button" value="Ver salida" onclick="fizzBuzz();"></td></tr>
+			</tbody>
+		</table>
+	</body>
+</html>
