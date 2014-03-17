@@ -1,0 +1,29 @@
+<html>
+	<body>
+		<script>
+			/*
+				FizzBuzzKata
+
+				Write a program that prints the numbers from 1 to 100. But for multiples of three 
+				print “Fizz” instead of the number and for the multiples of five print “Buzz”. For 
+				numbers which are multiples of both three and five print “FizzBuzz”
+
+				You can use any tool you find usefull and structure the code as you want.
+			*/
+			n = 100;
+			number1 = 3;
+			number2 = 5;
+			var fizz = new Array('', 'Fizz');
+			var buzz = new Array('', 'Buzz');
+
+			for (i = 1; i < n; i++) {
+				index1 = (i % number1 == 0) ? 1 : 0;
+				index2 = (i % number2 == 0) ? 1 : 0;
+
+				showNumber = (index1 + index2 == 0) ? i : "";
+
+				document.write(showNumber + fizz[index1] + buzz[index2] + "<br>");
+			}
+		</script>
+	</body>
+</html>
